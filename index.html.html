@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Little Date ♡</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Pacifico&display=swap');
+  :root{--pink:#ff70bd;--pink2:#ff9bd7;--purple:#a78bfa;--night:#08091d;--panel:rgba(18,19,49,.78);--white:#fff4fc}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;color:var(--white);font-family:Nunito,system-ui,sans-serif;display:grid;place-items:center;overflow-x:hidden;background:radial-gradient(ellipse at 20% 10%,#30205b 0,transparent 38%),radial-gradient(ellipse at 90% 90%,#411d50 0,transparent 35%),linear-gradient(135deg,#08091d,#15102c 60%,#090b20)}
+  body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#ff9bd7 1px,transparent 1.5px);background-size:93px 93px,137px 137px;background-position:0 0,40px 60px;opacity:.28;animation:twinkle 5s ease-in-out infinite alternate}
+  @keyframes twinkle{to{opacity:.65}}
+  .heart{position:fixed;bottom:-30px;color:#ff80c8;opacity:.6;pointer-events:none;animation:floatUp linear forwards}
+  @keyframes floatUp{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+  .app{position:relative;width:min(92vw,520px);padding:28px 25px 25px;border:1px solid rgba(255,143,211,.38);border-radius:28px;background:var(--panel);backdrop-filter:blur(16px);box-shadow:0 0 55px #ff70bd18,0 20px 70px #0007;overflow:hidden;animation:appear .7s cubic-bezier(.2,.8,.2,1)}
+  @keyframes appear{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+  .top{text-align:center;margin-bottom:22px}.eyebrow{font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;color:#d6c4ff}
+  h1{font-family:Pacifico,cursive;font-size:clamp(2rem,7vw,2.8rem);font-weight:400;line-height:1.25;margin:8px 0;color:#ff9bd7;text-shadow:0 0 24px #ff70bd55}
+  .subtitle{color:#c9c4e7;font-size:.96rem;margin:7px 0 0}
+  .screen{display:none;animation:slideIn .45s ease}.screen.active{display:block}
+  @keyframes slideIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+  label{display:block;font-size:.9rem;color:#e7dff9;margin:14px 0 7px}
+  input{width:100%;padding:14px 15px;border-radius:14px;border:1px solid #6d5598;background:#100f2b;color:white;font:inherit;outline:none;transition:.2s}
+  input:focus{border-color:var(--pink);box-shadow:0 0 0 3px #ff70bd20}
+  input::-webkit-calendar-picker-indicator{filter:invert(1);cursor:pointer}
+  .btn{border:0;border-radius:999px;padding:13px 20px;font:800 1rem Nunito,sans-serif;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px #ff70bd35}
+  .primary{width:100%;margin-top:20px;color:#2b1032;background:linear-gradient(100deg,#ff9bd7,#ff66b6);box-shadow:0 5px 24px #ff70bd30}
+  .secondary{background:#171531;color:#fce8fa;border:1px solid #7862a6}
+  .error{min-height:22px;color:#ff9fca;font-size:.85rem;margin:10px 0 0;text-align:center}
+  .progress{height:4px;background:#30264c;border-radius:10px;margin:0 0 23px;overflow:hidden}
+  .progress span{display:block;height:100%;width:25%;background:linear-gradient(90deg,var(--pink),var(--purple));border-radius:10px;transition:width .4s}
+  .step-title{text-align:center;font-size:1.25rem;font-weight:800;margin:0 0 6px}
+  .step-note{text-align:center;color:#c9c4e7;font-size:.9rem;margin:0 0 18px}
+  .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+  .choice{padding:20px 10px;border-radius:18px;border:1px solid #6d5598;background:#14122f;color:#fff;cursor:pointer;transition:.25s;text-align:center}
+  .choice .emoji{display:block;font-size:2rem;margin-bottom:8px}.choice strong{display:block;font-size:1.05rem}.choice small{display:block;color:#c9c4e7;margin-top:5px}
+  .choice.selected{border-color:var(--pink);background:linear-gradient(145deg,#7d326a88,#34255b);box-shadow:0 0 24px #ff70bd22;transform:translateY(-2px)}
+  .question{text-align:center;font-size:clamp(1.2rem,4.5vw,1.55rem);font-weight:800;line-height:1.45;margin:10px 0 18px}
+  .cute{font-size:3.1rem;text-align:center;animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-7px) rotate(3deg)}}
+  .answer-area{position:relative;display:flex;justify-content:center;align-items:center;gap:14px;min-height:76px;margin-top:14px}
+  .yes{min-width:120px;color:#35102f;background:linear-gradient(100deg,#ff9bd7,#ff66b6);box-shadow:0 0 25px #ff70bd30}
+  .no{min-width:100px;color:#eee4ff;background:#191632;border:1px solid #8871b4;position:relative}
+  .summary{border:1px solid #594779;border-radius:18px;background:#100f29;padding:18px;margin-top:18px}
+  .summary-row{display:flex;gap:10px;align-items:center;margin:10px 0;color:#e9dff8}.summary-row span:first-child{width:28px}
+  .success{text-align:center;font-size:1.05rem;color:#f8d9ef;line-height:1.6}
+  .footer{text-align:center;color:#958ab9;font-size:.78rem;margin-top:20px}
+  .hidden{display:none!important}
+  @media(max-width:420px){.app{padding:23px 18px}.answer-area{gap:9px}.yes{min-width:105px}.no{min-width:88px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="eyebrow">✦ a tiny invitation ✦</div>
+    <h1>Our Little Date ♡</h1>
+    <p class="subtitle">A little moment… maybe a lovely memory.</p>
+  </div>
+  <div class="progress"><span id="progress"></span></div>
+
+  <section class="screen active" id="login">
+    <p class="step-title">First, a little secret 🔐</p>
+    <p class="step-note">Log in to unlock your invitation.</p>
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input id="username" autocomplete="username" placeholder="Enter username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="Enter password" required>
+      <p class="error" id="loginError" aria-live="polite"></p>
+      <button class="btn primary" type="submit">Unlock the invitation ♡</button>
+    </form>
+  </section>
+
+  <section class="screen" id="dateScreen">
+    <p class="step-title">Let's plan our date ✨</p>
+    <p class="step-note">Pick the day and time that work for you.</p>
+    <label for="date">📅 Choose a date</label>
+    <input id="date" type="date" required>
+    <label for="time">🕒 Choose a time</label>
+    <input id="time" type="time" value="19:30" required>
+    <button class="btn primary" id="toVibe">Next: choose our vibe →</button>
+  </section>
+
+  <section class="screen" id="vibeScreen">
+    <p class="step-title">Choose your vibe ♡</p>
+    <p class="step-note">Sunshine or city lights?</p>
+    <div class="choice-grid">
+      <button class="choice" data-vibe="Morning Date" type="button"><span class="emoji">🌅</span><strong>Morning Date</strong><small>Sunshine & coffee</small></button>
+      <button class="choice" data-vibe="Night Date" type="button"><span class="emoji">🌙</span><strong>Night Date</strong><small>City lights & stars</small></button>
+    </div>
+    <p class="error" id="vibeError" aria-live="polite"></p>
+    <button class="btn primary" id="toQuestion">One last question →</button>
+  </section>
+
+  <section class="screen" id="questionScreen">
+    <div class="cute" aria-hidden="true">🥹💗</div>
+    <p class="question">You sure you want to go on a date with me?</p>
+    <p class="step-note">Choose wisely… the little No button is shy. 😈</p>
+    <div class="answer-area" id="answerArea">
+      <button class="btn yes" id="yesBtn" type="button">Yes ♡</button>
+      <button class="btn no" id="noBtn" type="button">No 🙈</button>
+    </div>
+  </section>
+
+  <section class="screen" id="successScreen">
+    <div class="cute">💖✨</div>
+    <p class="step-title">Yay! It's a date!</p>
+    <p class="success">You just made my day. Let's make it special ♡</p>
+    <div class="summary">
+      <div class="summary-row"><span>📅</span><strong>Date:</strong><span id="summaryDate"></span></div>
+      <div class="summary-row"><span>🕒</span><strong>Time:</strong><span id="summaryTime"></span></div>
+      <div class="summary-row"><span>✨</span><strong>Vibe:</strong><span id="summaryVibe"></span></div>
+    </div>
+    <button class="btn primary" id="sendEmail">Send Email 💌</button>
+    <p class="step-note" style="margin:10px 0 0">Your email app will open with the details ready. Press Send there.</p>
+    <button class="btn secondary" id="restart" style="width:100%;margin-top:12px">Start again ↺</button>
+  </section>
+  <div class="footer">made with M7AME7O♡</div>
+</div>
+
+<script>
+  const screens = [...document.querySelectorAll('.screen')];
+  const progress = document.getElementById('progress');
+  let vibe = '';
+  let noMoves = 0;
+
+  function showScreen(id, step) {
+    screens.forEach(s => s.classList.toggle('active', s.id === id));
+    progress.style.width = `${step * 25}%`;
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value;
+    if (user === 'K' && pass === 'ilovekera') {
+      document.getElementById('loginError').textContent = '';
+      showScreen('dateScreen', 1);
+    } else {
+      document.getElementById('loginError').textContent = 'Hmm… that username or password is not right 💭';
+      document.getElementById('password').value = '';
+    }
+  });
+
+  // Set the date picker minimum to today.
+  const dateInput = document.getElementById('date');
+  const now = new Date();
+  dateInput.min = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  dateInput.value = dateInput.min;
+
+  document.getElementById('toVibe').addEventListener('click', () => {
+    if (!dateInput.value || !document.getElementById('time').value) {
+      alert('Choose a date and time first ♡');
+      return;
+    }
+    showScreen('vibeScreen', 2);
+  });
+
+  document.querySelectorAll('[data-vibe]').forEach(btn => btn.addEventListener('click', () => {
+    vibe = btn.dataset.vibe;
+    document.querySelectorAll('[data-vibe]').forEach(b => b.classList.toggle('selected', b === btn));
+    document.getElementById('vibeError').textContent = '';
+  }));
+
+  document.getElementById('toQuestion').addEventListener('click', () => {
+    if (!vibe) {
+      document.getElementById('vibeError').textContent = 'Pick your favorite vibe first ♡';
+      return;
+    }
+    showScreen('questionScreen', 3);
+  });
+
+  const noBtn = document.getElementById('noBtn');
+  const answerArea = document.getElementById('answerArea');
+  function moveNo() {
+    noMoves++;
+    // Keep the button inside the invitation card while making it dodge the pointer.
+    const area = answerArea.getBoundingClientRect();
+    const btn = noBtn.getBoundingClientRect();
+    const maxX = Math.max(0, area.width - btn.width);
+    const maxY = 28;
+    const x = Math.random() * maxX - maxX / 2;
+    const y = (Math.random() * maxY * 2) - maxY;
+    noBtn.style.position = 'relative';
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+    noBtn.style.transform = `rotate(${Math.random()*18-9}deg)`;
+    noBtn.textContent = noMoves > 3 ? 'Missed me! 😜' : 'No 🙈';
+  }
+  noBtn.addEventListener('mouseenter', moveNo);
+  noBtn.addEventListener('pointerdown', e => { e.preventDefault(); moveNo(); });
+  noBtn.addEventListener('focus', moveNo);
+  noBtn.addEventListener('click', moveNo);
+
+  document.getElementById('yesBtn').addEventListener('click', () => {
+    const chosenDate = new Date(`${dateInput.value}T12:00:00`);
+    document.getElementById('summaryDate').textContent = chosenDate.toLocaleDateString(undefined, {year:'numeric', month:'long', day:'numeric'});
+    const [hh, mm] = document.getElementById('time').value.split(':').map(Number);
+    const timeDate = new Date();
+    timeDate.setHours(hh, mm, 0, 0);
+    document.getElementById('summaryTime').textContent = timeDate.toLocaleTimeString(undefined, {hour:'numeric', minute:'2-digit'});
+    document.getElementById('summaryVibe').textContent = vibe;
+    showScreen('successScreen', 4);
+    for (let i = 0; i < 18; i++) setTimeout(makeHeart, i * 100);
+  });
+
+  document.getElementById('sendEmail').addEventListener('click', () => {
+    const recipient = 'mohammedabdullah076@icloud.com';
+    const chosenDate = document.getElementById('summaryDate').textContent;
+    const chosenTime = document.getElementById('summaryTime').textContent;
+    const chosenVibe = document.getElementById('summaryVibe').textContent;
+    const subject = 'Our Little Date 💗';
+    const body = [
+      'Our Little Date Invitation response 💗',
+      '',
+      'Answer: YES',
+      `Date: ${chosenDate}`,
+      `Time: ${chosenTime}`,
+      `Vibe: ${chosenVibe}`
+    ].join('\n');
+    const mailto = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+  });
+
+  document.getElementById('restart').addEventListener('click', () => {
+    vibe = '';
+    noMoves = 0;
+    noBtn.style.left = '0'; noBtn.style.top = '0'; noBtn.style.transform = '';
+    noBtn.textContent = 'No 🙈';
+    document.querySelectorAll('[data-vibe]').forEach(b => b.classList.remove('selected'));
+    document.getElementById('loginForm').reset();
+    showScreen('login', 0);
+  });
+
+  function makeHeart() {
+    const el = document.createElement('span');
+    el.className = 'heart';
+    el.textContent = ['♡','♥','✦','✨'][Math.floor(Math.random()*4)];
+    el.style.left = `${Math.random()*100}vw`;
+    el.style.fontSize = `${12 + Math.random()*22}px`;
+    el.style.animationDuration = `${4 + Math.random()*5}s`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 9500);
+  }
+  setInterval(() => { if (Math.random() > .45) makeHeart(); }, 1100);
+</script>
+</body>
+</html>
